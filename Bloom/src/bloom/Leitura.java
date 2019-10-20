@@ -25,13 +25,17 @@ import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Leitura extends JPanel {
+public class Leitura extends JPanel implements ActionListener{
 
     private static int lar = 360, alt = 720;
     private static Scanner input, input2;
@@ -39,16 +43,102 @@ public class Leitura extends JPanel {
     private static float temp[][] = new float[lar][alt];
     private int resp = 0;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException  {
         ler();
         guarda();
         closeFile();
-
+        
+        
         Leitura blm = new Leitura();
         JFrame janela = new JFrame();
 
+        JDesktopPane desktop = new JDesktopPane();
+        
+        JMenu arquivo = new JMenu("Arquivo");
+        arquivo.setMnemonic('r');
+        
+        JMenuItem sair = new JMenuItem("Sair");
+        sair.setMnemonic('S');
+        sair.addActionListener(blm);
+        sair.setActionCommand("0");
+        
+        arquivo.add(sair);
+        
+        JMenu exibir = new JMenu("Ver outros mapas");
+        exibir.setMnemonic('E');
+        
+        JMenu temperatura = new JMenu("Temperatura");
+        temperatura.setMnemonic('T');
+        
+        JMenu clorofila = new JMenu("Clorofila");
+        clorofila.setMnemonic('C');
+        
+        JMenu salinidade = new JMenu("Salinidade");
+        salinidade.setMnemonic('S');
+        
+        JMenuItem janeiro1 = new JMenuItem("Janeiro");
+        janeiro1.addActionListener(blm);
+        janeiro1.setActionCommand("11");
+        
+        JMenuItem janeiro2 = new JMenuItem("Janeiro");
+        janeiro2.addActionListener(blm);
+        janeiro2.setActionCommand("12");
+        
+        JMenuItem janeiro3 = new JMenuItem("Janeiro");
+        janeiro3.addActionListener(blm);
+        janeiro3.setActionCommand("13");
+        
+        JMenuItem junho1 = new JMenuItem("Junho");
+        junho1.setActionCommand("21");
+        junho1.addActionListener(blm);
+        
+        JMenuItem junho2 = new JMenuItem("Junho");
+        junho2.addActionListener(blm);
+        junho2.setActionCommand("22");
+        
+        JMenuItem junho3 = new JMenuItem("Junho");
+        junho3.addActionListener(blm);
+        junho3.setActionCommand("23");
+        
+        JMenuItem dezembro1 = new JMenuItem("Dezembro");
+        dezembro1.addActionListener(blm);
+        dezembro1.setActionCommand("31");
+        
+        JMenuItem dezembro2 = new JMenuItem("Dezembro");
+        dezembro2.addActionListener(blm);
+        dezembro2.setActionCommand("32");
+        
+        JMenuItem dezembro3 = new JMenuItem("Dezembro");
+        dezembro3.addActionListener(blm);
+        dezembro3.setActionCommand("33");
+        
+        temperatura.add(janeiro1);
+        temperatura.add(junho1);
+        temperatura.add(dezembro1);
+        
+        clorofila.add(janeiro2);
+        clorofila.add(junho2);
+        clorofila.add(dezembro2);
+        
+        salinidade.add(janeiro3);
+        salinidade.add(junho3);
+        salinidade.add(dezembro3);
+        
+        exibir.add(temperatura);
+        exibir.add(clorofila);
+        exibir.add(salinidade);
+        
+        
+        JMenuBar bar = new JMenuBar();
+        bar.add(arquivo);
+        bar.add(exibir);
+        janela.setJMenuBar(bar);
+        
+        janela.add(desktop);
+        
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.add(blm);
+        janela.add(desktop);
         janela.setSize(lar, alt);
         janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
         janela.setVisible(true);
@@ -57,7 +147,7 @@ public class Leitura extends JPanel {
     public Leitura() {
 
         resp = Integer.parseInt(JOptionPane.showInputDialog("1 - Clorofila \n2 - Temperatura"));
-
+            
     }
 
     @Override
@@ -182,5 +272,32 @@ public class Leitura extends JPanel {
             input2.close();
         }
     } // end method closeFile
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int y = Integer.parseInt(e.getActionCommand());
+        switch(y)
+        {
+            case 11:
+                System.out.println("temperatura janeiro");
+                break;
+            case 12:
+                break;
+            case 13:
+                break;
+            case 21:
+                break;
+            case 22:
+                break;
+            case 23:
+                break;
+            case 31:
+                break;
+            case 32:
+                break;
+            case 33:
+                break;
+        }
+    }
 
 }
