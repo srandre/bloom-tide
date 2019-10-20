@@ -8,8 +8,10 @@ package leitura;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,6 +36,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class Leitura extends JPanel implements ActionListener {
@@ -60,7 +64,7 @@ public class Leitura extends JPanel implements ActionListener {
         closeFile();
 
         Leitura blm = new Leitura();
-        JFrame janela = new JFrame();
+        JFrame janela = new JFrame("Bloom Tide");
 
         JMenu arquivo = new JMenu("Arquivo");
         arquivo.setMnemonic('r');
@@ -162,21 +166,104 @@ public class Leitura extends JPanel implements ActionListener {
 
     }
 
-    private class MouseHandler implements MouseListener, MouseMotionListener {
+    private class MouseHandler implements MouseListener, MouseMotionListener, ActionListener {
+
+        JPanel painel = new JPanel();
+        JLabel lab = new JLabel();
+        JLabel lab2 = new JLabel();
+        JLabel lab3 = new JLabel();
+        JFrame frm = new JFrame("Info");
+        JTextField x1, x2, y1, y2;
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if (SwingUtilities.isRightMouseButton(e)) {
+                JFrame frame = new JFrame("Selecionar Coordenadas");
+                JPanel painel = new JPanel();
+
+                JLabel xa = new JLabel("Long");
+                xa.setFont(new Font("Times New Roman", 20, 20));
+                JLabel xb = new JLabel("-");
+                xb.setHorizontalAlignment(JTextField.CENTER);
+                xb.setFont(new Font("Times New Roman", 20, 20));
+
+                JLabel ya = new JLabel("Lat");
+                ya.setFont(new Font("Times New Roman", 20, 20));
+                JLabel yb = new JLabel("-");
+                yb.setHorizontalAlignment(JTextField.CENTER);
+                yb.setFont(new Font("Times New Roman", 20, 20));
+
+                painel.setLayout(new GridLayout(2, 4));
+
+                x1 = new JTextField();
+                x1.addActionListener(this);
+                x1.setActionCommand("1");
+                x1.setSelectionStart(0);
+                x1.setSelectionEnd(0);
+
+                x2 = new JTextField();
+                x2.addActionListener(this);
+                x2.setActionCommand("2");
+
+                y1 = new JTextField();
+                y1.addActionListener(this);
+                y1.setActionCommand("3");
+
+                y2 = new JTextField();
+                y2.addActionListener(this);
+                y2.setActionCommand("4");
+
+                painel.add(xa);
+                painel.add(x1);
+                painel.add(xb);
+                painel.add(x2);
+                painel.add(ya);
+                painel.add(y1);
+                painel.add(yb);
+                painel.add(y2);
+
+                frame.add(painel);
+
+                frame.setSize(400, 100);
+
+                frame.setLocationRelativeTo(null);
+                frame.setVisible(true);
+            }
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+            if (SwingUtilities.isLeftMouseButton(e)) {
+
+            lab.setText("Concentracao:  " + finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] + " mg/m³");
+            lab2.setText("Temperatura:  " + temp[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] + " ºC ");
+            lab3.setText("Salinidade:  " + sal[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] + " PSU ");
+
+            painel.setLayout(new FlowLayout());
+            lab.setFont(new Font("Times New Roman", 20, 20));
+            lab2.setFont(new Font("Times New Roman", 20, 20));
+            lab3.setFont(new Font("Times New Roman", 20, 20));
+            painel.add(lab);
+            painel.add(lab2);
+            painel.add(lab3);
+
+            if (finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] < 8000) {
+                frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frm.setSize(300, 100);
+                frm.add(painel);
+
+                frm.setLocationRelativeTo(null);
+                frm.setUndecorated(true);
+                frm.setVisible(true);
+            }
+           }
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+            frm.dispose();
         }
 
         @Override
@@ -200,21 +287,21 @@ public class Leitura extends JPanel implements ActionListener {
                 if (finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
                     lbl.setText("NO INFO");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m^3");
+                    lbl.setText(String.format("Concentracao:  " + finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 1) {
                 if (finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
                     lbl.setText("Concentracao: 0 mg/m^3");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m^3");
+                    lbl.setText(String.format("Concentracao:  " + finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 2) {
                 if (finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
                     lbl.setText("NO INFO");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m^3");
+                    lbl.setText(String.format("Concentracao:  " + finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 3) {
@@ -259,6 +346,30 @@ public class Leitura extends JPanel implements ActionListener {
                 } else {
                     lbl.setText(String.format("Salinidade:  " + sal3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " PSU ");
                 }
+            }
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent ae) 
+        {
+            int y = Integer.parseInt(ae.getActionCommand());
+            switch(y)
+            {
+                case 1:
+                    x2.setSelectionStart(0);
+                    x2.setSelectionEnd(0);
+                    break;
+                case 2:
+                    y1.setSelectionStart(0);
+                    y1.setSelectionEnd(0);
+                    break;
+                case 3:
+                    y2.setSelectionStart(0);
+                    y2.setSelectionEnd(0);
+                    break;
+                case 4:
+                    
+                    break;
             }
         }
 
@@ -387,6 +498,7 @@ public class Leitura extends JPanel implements ActionListener {
                 break;
             case 33:
                 resp = 8;
+
                 lbl.setText("Salinidade: ");
                 repaint();
                 break;
@@ -511,16 +623,16 @@ public class Leitura extends JPanel implements ActionListener {
 
                 for (int j = 1; j < temp[i].length; j++) {
 
-                    if (temp[i][j] <= 5 && temp[i][j] > -10) {
+                    if (temp[i][j] <= 10 && temp[i][j] > -10) {
                         g2d.setPaint(new Color(253, 252, 70));
                     } else {
-                        if (temp[i][j] <= 15 && temp[i][j] > 5) {
+                        if (temp[i][j] <= 20 && temp[i][j] > 10) {
                             g2d.setPaint(new Color(214, 189, 25));
                         } else {
-                            if (temp[i][j] <= 23 && temp[i][j] > 15) {
+                            if (temp[i][j] <= 25 && temp[i][j] > 20) {
                                 g2d.setPaint(new Color(220, 87, 2));
                             } else {
-                                if (temp[i][j] > 23) {
+                                if (temp[i][j] > 25) {
 
                                     g2d.setPaint(new Color(220, 2, 2));
                                 }
@@ -601,16 +713,16 @@ public class Leitura extends JPanel implements ActionListener {
 
                 for (int j = 1; j < sal[i].length; j++) {
 
-                    if (sal[i][j] <= 32 && sal[i][j] > 30) {
+                    if (sal[i][j] <= 10 && sal[i][j] > 0) {
                         g2d.setPaint(new Color(4, 101, 70));
                     } else {
-                        if (sal[i][j] <= 34 && sal[i][j] > 32) {
+                        if (sal[i][j] <= 20 && sal[i][j] > 10) {
                             g2d.setPaint(new Color(4, 142, 70));
                         } else {
-                            if (sal[i][j] <= 36 && sal[i][j] > 34) {
+                            if (sal[i][j] <= 30 && sal[i][j] > 20) {
                                 g2d.setPaint(new Color(4, 197, 70));
                             } else {
-                                if (sal[i][j] > 36) {
+                                if (sal[i][j] > 30) {
 
                                     g2d.setPaint(new Color(4, 252, 70));
                                 }
