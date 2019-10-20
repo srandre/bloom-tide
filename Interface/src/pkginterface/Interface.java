@@ -24,24 +24,66 @@ public class Interface implements ActionListener
         JMenu exibir = new JMenu("Ver outros mapas");
         exibir.setMnemonic('E');
         
-        JMenuItem junho = new JMenuItem("Junho");
-        junho.setMnemonic('u');
-        junho.addActionListener(in);
-        junho.setActionCommand("6");
+        JMenu temperatura = new JMenu("Temperatura");
+        temperatura.setMnemonic('T');
         
-        JMenuItem julho = new JMenuItem("Julho");
-        julho.setMnemonic('l');
-        julho.addActionListener(in);
-        julho.setActionCommand("7");
+        JMenu clorofila = new JMenu("Clorofila");
+        clorofila.setMnemonic('C');
         
-        JMenuItem agosto = new JMenuItem("Agosto");
-        agosto.setMnemonic('A');
-        agosto.addActionListener(in);
-        agosto.setActionCommand("8");
+        JMenu salinidade = new JMenu("Salinidade");
+        salinidade.setMnemonic('S');
         
-        exibir.add(junho);
-        exibir.add(julho);
-        exibir.add(agosto);
+        JMenuItem janeiro1 = new JMenuItem("Janeiro");
+        janeiro1.addActionListener(in);
+        janeiro1.setActionCommand("11");
+        
+        JMenuItem janeiro2 = new JMenuItem("Janeiro");
+        janeiro2.addActionListener(in);
+        janeiro2.setActionCommand("12");
+        
+        JMenuItem janeiro3 = new JMenuItem("Janeiro");
+        janeiro3.addActionListener(in);
+        janeiro3.setActionCommand("13");
+        
+        JMenuItem junho1 = new JMenuItem("Junho");
+        junho1.setActionCommand("21");
+        junho1.addActionListener(in);
+        
+        JMenuItem junho2 = new JMenuItem("Junho");
+        junho2.addActionListener(in);
+        junho2.setActionCommand("22");
+        
+        JMenuItem junho3 = new JMenuItem("Junho");
+        junho3.addActionListener(in);
+        junho3.setActionCommand("23");
+        
+        JMenuItem dezembro1 = new JMenuItem("Dezembro");
+        dezembro1.addActionListener(in);
+        dezembro1.setActionCommand("31");
+        
+        JMenuItem dezembro2 = new JMenuItem("Dezembro");
+        dezembro2.addActionListener(in);
+        dezembro2.setActionCommand("32");
+        
+        JMenuItem dezembro3 = new JMenuItem("Dezembro");
+        dezembro3.addActionListener(in);
+        dezembro3.setActionCommand("33");
+        
+        temperatura.add(janeiro1);
+        temperatura.add(junho1);
+        temperatura.add(dezembro1);
+        
+        clorofila.add(janeiro2);
+        clorofila.add(junho2);
+        clorofila.add(dezembro2);
+        
+        salinidade.add(janeiro3);
+        salinidade.add(junho3);
+        salinidade.add(dezembro3);
+        
+        exibir.add(temperatura);
+        exibir.add(clorofila);
+        exibir.add(salinidade);
         
         JFrame janela = new JFrame();
         
@@ -62,7 +104,25 @@ public class Interface implements ActionListener
         int y = Integer.parseInt(e.getActionCommand());
         switch(y)
         {
-            
+            case 11:
+                System.out.println("temperatura janeiro");
+                break;
+            case 12:
+                break;
+            case 13:
+                break;
+            case 21:
+                break;
+            case 22:
+                break;
+            case 23:
+                break;
+            case 31:
+                break;
+            case 32:
+                break;
+            case 33:
+                break;
         }
     }
     
