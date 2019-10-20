@@ -41,8 +41,9 @@ public class Leitura extends JPanel implements ActionListener{
     private static Scanner input, input2;
     private static float finale[][] = new float[lar][alt];
     private static float temp[][] = new float[lar][alt];
-    private int resp = 0;
-
+    static int resp = 0;
+    private static String[] vet = {"ConcentrationJanuary2014.txt","ConcentrationJuly2014.txt","ConcentrationDecember2014.txt","Janeiro2014Temp.txt","Julho2014Temp.txt","Dezembro2014Temp.txt","Janeiro2014Salinidade.txt","Julho2014Salinidade.txt","Dezembro2014Salinidade.txt"};
+            
     public static void main(String[] args) throws IOException  {
         ler();
         guarda();
@@ -52,7 +53,7 @@ public class Leitura extends JPanel implements ActionListener{
         Leitura blm = new Leitura();
         JFrame janela = new JFrame();
 
-        JDesktopPane desktop = new JDesktopPane();
+        //JDesktopPane desktop = new JDesktopPane();
         
         JMenu arquivo = new JMenu("Arquivo");
         arquivo.setMnemonic('r');
@@ -112,20 +113,20 @@ public class Leitura extends JPanel implements ActionListener{
         dezembro3.addActionListener(blm);
         dezembro3.setActionCommand("33");
         
-        temperatura.add(janeiro1);
-        temperatura.add(junho1);
-        temperatura.add(dezembro1);
+        temperatura.add(janeiro2);
+        temperatura.add(junho2);
+        temperatura.add(dezembro2);
         
-        clorofila.add(janeiro2);
-        clorofila.add(junho2);
-        clorofila.add(dezembro2);
+        clorofila.add(janeiro1);
+        clorofila.add(junho1);
+        clorofila.add(dezembro1);
         
         salinidade.add(janeiro3);
         salinidade.add(junho3);
         salinidade.add(dezembro3);
         
-        exibir.add(temperatura);
         exibir.add(clorofila);
+        exibir.add(temperatura);      
         exibir.add(salinidade);
         
         
@@ -134,11 +135,10 @@ public class Leitura extends JPanel implements ActionListener{
         bar.add(exibir);
         janela.setJMenuBar(bar);
         
-        janela.add(desktop);
+        
         
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.add(blm);
-        janela.add(desktop);
         janela.setSize(lar, alt);
         janela.setExtendedState(JFrame.MAXIMIZED_BOTH);
         janela.setVisible(true);
@@ -146,10 +146,108 @@ public class Leitura extends JPanel implements ActionListener{
 
     public Leitura() {
 
-        resp = Integer.parseInt(JOptionPane.showInputDialog("1 - Clorofila \n2 - Temperatura"));
+        //resp = Integer.parseInt(JOptionPane.showInputDialog("1 - Clorofila \n2 - Temperatura"));
             
     }
 
+    
+
+    public static void ler() throws IOException {
+        try {
+
+            input = new Scanner(new File(vet[resp]));
+            //input2 = new Scanner(new File("Dezembro2014Temp.txt"));
+            
+        } // end try
+        catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Error opening file.");
+            System.exit(1);
+        } // end catch
+    } // end method openFile
+
+    public static void guarda() throws IOException {
+        // object to be written to screen
+        String str;
+
+        int i = 0, j = 0;
+
+        try // read records from file using Scanner object
+        {
+            for (int z = 0; z < lar; z++) {
+                for (int n = 0; n < alt; n++) {
+                    finale[z][n] = Float.parseFloat(input.next());
+                    temp[z][n] = Float.parseFloat(input2.next());
+                }
+            }
+        } // end try
+        catch (NoSuchElementException elementException) {
+            System.err.println("File improperly formed.");
+            input.close();
+            input2.close();
+            System.exit(1);
+        } // end catch
+        catch (IllegalStateException stateException) {
+            System.err.println("Error reading from file.");
+            System.exit(1);
+        } // end catch
+
+    }
+
+    public static void closeFile() {
+        if (input != null) {
+            input.close(); // close file
+            input2.close();
+        }
+    } // end method closeFile
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int y = Integer.parseInt(e.getActionCommand());
+        switch(y)
+        {
+            case 0:
+                System.exit(0);
+                break;
+            case 11:
+                resp=0;
+                System.out.println(""+resp);
+                repaint();
+                break;
+            case 12:
+                resp=1;
+                repaint();
+                break;
+            case 13:
+                resp=2;
+                repaint();
+                break;
+            case 21:
+                resp=3;
+                repaint();
+                break;
+            case 22:
+                resp=4;
+                repaint();
+                break;
+            case 23:
+                resp=5;
+                repaint();
+                break;
+            case 31:
+                resp=6;
+                repaint();
+                break;
+            case 32:
+                resp=7;
+                repaint();
+                break;
+            case 33:
+                resp=8;
+                repaint();
+                break;
+        }
+    }
+    
     @Override
     public void paintComponent(Graphics g) {
 
@@ -159,8 +257,9 @@ public class Leitura extends JPanel implements ActionListener{
 
         g2d.setPaint(Color.BLACK);
         g2d.fill(new Rectangle2D.Double(0, 0, getWidth(), getHeight()));
-
+        
         if (resp == 1) {
+            
             for (int i = 1; i < finale.length; i++) {
 
                 for (int j = 1; j < finale[i].length; j++) {
@@ -223,80 +322,6 @@ public class Leitura extends JPanel implements ActionListener{
                     }
                 }
             }
-        }
-    }
-
-    public static void ler() throws IOException {
-        try {
-
-            input = new Scanner(new File("teste3.txt"));
-            input2 = new Scanner(new File("Temp.txt"));
-        } // end try
-        catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error opening file.");
-            System.exit(1);
-        } // end catch
-    } // end method openFile
-
-    public static void guarda() throws IOException {
-        // object to be written to screen
-        String str;
-
-        int i = 0, j = 0;
-
-        try // read records from file using Scanner object
-        {
-            for (int z = 0; z < lar; z++) {
-                for (int n = 0; n < alt; n++) {
-                    finale[z][n] = Float.parseFloat(input.next());
-                    temp[z][n] = Float.parseFloat(input2.next());
-                }
-            }
-        } // end try
-        catch (NoSuchElementException elementException) {
-            System.err.println("File improperly formed.");
-            input.close();
-            input2.close();
-            System.exit(1);
-        } // end catch
-        catch (IllegalStateException stateException) {
-            System.err.println("Error reading from file.");
-            System.exit(1);
-        } // end catch
-
-    }
-
-    public static void closeFile() {
-        if (input != null) {
-            input.close(); // close file
-            input2.close();
-        }
-    } // end method closeFile
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        int y = Integer.parseInt(e.getActionCommand());
-        switch(y)
-        {
-            case 11:
-                System.out.println("temperatura janeiro");
-                break;
-            case 12:
-                break;
-            case 13:
-                break;
-            case 21:
-                break;
-            case 22:
-                break;
-            case 23:
-                break;
-            case 31:
-                break;
-            case 32:
-                break;
-            case 33:
-                break;
         }
     }
 
