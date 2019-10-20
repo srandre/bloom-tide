@@ -223,7 +223,7 @@ public class Leitura extends JPanel implements ActionListener {
             painel.add(lab3);
 
             if (finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] < 8000) {
-                frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                //frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frm.setSize(300, 100);
                 frm.add(painel);
 
@@ -236,7 +236,6 @@ public class Leitura extends JPanel implements ActionListener {
 
         @Override
         public void mouseReleased(MouseEvent e) {
-
             frm.dispose();
         }
 
@@ -354,17 +353,17 @@ public class Leitura extends JPanel implements ActionListener {
                         {
                             for(int j=Integer.parseInt(yum); j<Integer.parseInt(ydois); j++)
                             {
-                                if(finale[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                if(finale[(int)(j/3.0)][(int)(i/2.7)] < 10)
                                 {
                                     sum1+=finale[(int)(j/3.0)][(int)(i/2.7)];
                                     cont1++;
                                 }
-                                if(temp[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                if(temp[(int)(j/3.0)][(int)(i/2.7)] < 100)
                                 {
                                     sum2+=temp[(int)(j/3.0)][(int)(i/2.7)];
                                     cont2++;
                                 }
-                                if(sal[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                if(sal[(int)(j/3.0)][(int)(i/2.7)] < 40)
                                 {
                                     sum3+=sal[(int)(j/3.0)][(int)(i/2.7)];
                                     cont3++;
@@ -821,7 +820,7 @@ public class Leitura extends JPanel implements ActionListener {
         }
         if(kappa)
         {
-            kappa=false;
+            //kappa=false;
             int xisum = Integer.parseInt(x1.getText());
             int xisdois = Integer.parseInt(x2.getText());
             int yum = Integer.parseInt(y1.getText());
