@@ -223,6 +223,7 @@ public class Leitura extends JPanel implements ActionListener {
             painel.add(lab3);
 
             if (finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] < 8000) {
+                
                 //frm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frm.setSize(300, 100);
                 frm.add(painel);
@@ -382,12 +383,12 @@ public class Leitura extends JPanel implements ActionListener {
                         painel.add(lab3);
                         frm.setSize(500, 150);
                         frm.add(painel);
-
+                        kappa=true;
+                        repaint();
                         frm.setLocationRelativeTo(null);
                         frm.setVisible(true);
                         frame.dispose();
-                        kappa=true;
-                        repaint();
+                        
                     }
                     break;
             }
@@ -819,8 +820,7 @@ public class Leitura extends JPanel implements ActionListener {
             }
         }
         if(kappa)
-        {
-            //kappa=false;
+        {         
             int xisum = Integer.parseInt(x1.getText());
             int xisdois = Integer.parseInt(x2.getText());
             int yum = Integer.parseInt(y1.getText());
