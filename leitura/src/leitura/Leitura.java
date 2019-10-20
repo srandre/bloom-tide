@@ -19,6 +19,7 @@ public class Leitura {
 
     private static Scanner input;
     private final float[][] matriz=new float[100][100];
+    private static float finale[][] = new float[33][38];
     public static void main(String[] args) throws IOException {
         ler();
         guarda();
@@ -43,14 +44,18 @@ public class Leitura {
         
         BufferedWriter buf3 = new BufferedWriter(new FileWriter("maior10.txt"));
         int i=0,j=0;
-        
+        int cont = 0;
+        float vetor[] = new float[33];
         try // read records from file using Scanner object
         {
-            while (input.hasNext()) {
+            /*while (input.hasNext()) {
                 str = input.next();
-
-                
-                matriz[i][j]=float.parsefloat(str);
+                float test = Float.parseFloat(str);
+                System.out.println(test);
+                System.out.println("");
+                vetor[cont] = test;
+                cont++;
+                System.out.println(vetor[cont]);
                 
                 if (str.length() < 6) {
                     
@@ -65,7 +70,12 @@ public class Leitura {
                     buf3.write(" ");
                 }
 
-            } // end while
+            } // end while*/
+            for(int z=0; z<33; z++)
+                for(int n=0; n<38; n++)
+                {
+                    finale[z][n]=Float.parseFloat(input.next());
+                }
         } // end try
         catch (NoSuchElementException elementException) {
             System.err.println("File improperly formed.");
