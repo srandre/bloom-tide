@@ -86,15 +86,7 @@ public class Leitura {
             System.err.println("Error reading from file.");
             System.exit(1);
         } // end catch
-        finally {
-            if (buf != null) {
-                buf.close(); // close file
-            }
-
-            if (buf3 != null) {
-                buf3.close(); // close file
-            }
-        } // end method readRecords
+        
     }
 
     public static void closeFile() {
