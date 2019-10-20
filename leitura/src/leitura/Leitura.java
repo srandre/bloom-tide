@@ -5,40 +5,12 @@
  */
 package leitura;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.NoSuchElementException;
-import java.util.Random;
-import java.util.Scanner;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+import java.io.*;
+import java.util.*;
+import javax.swing.*;
 
 public class Leitura extends JPanel implements ActionListener {
 
@@ -165,20 +137,22 @@ public class Leitura extends JPanel implements ActionListener {
         this.addMouseMotionListener(handler);
 
     }
-
+    boolean kappa = false;
+    JTextField x1, x2, y1, y2;
     private class MouseHandler implements MouseListener, MouseMotionListener, ActionListener {
 
         JPanel painel = new JPanel();
         JLabel lab = new JLabel();
         JLabel lab2 = new JLabel();
         JLabel lab3 = new JLabel();
-        JFrame frm = new JFrame("Info");
-        JTextField x1, x2, y1, y2;
-
+        JFrame frm = new JFrame("Médias");
+        JFrame frame;
+        
+        
         @Override
         public void mouseClicked(MouseEvent e) {
             if (SwingUtilities.isRightMouseButton(e)) {
-                JFrame frame = new JFrame("Selecionar Coordenadas");
+                frame = new JFrame("Selecionar Coordenadas");
                 JPanel painel = new JPanel();
 
                 JLabel xa = new JLabel("Long");
@@ -287,21 +261,21 @@ public class Leitura extends JPanel implements ActionListener {
                 if (finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
                     lbl.setText("NO INFO");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
+                    lbl.setText(String.format("Concentração:  " + finale[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 1) {
                 if (finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
-                    lbl.setText("Concentracao: 0 mg/m^3");
+                    lbl.setText("Concentração: 0 mg/m^3");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
+                    lbl.setText(String.format("Concentração:  " + finale2[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 2) {
                 if (finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)] > 6000) {
                     lbl.setText("NO INFO");
                 } else {
-                    lbl.setText(String.format("Concentracao:  " + finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
+                    lbl.setText(String.format("Concentração:  " + finale3[(int) (e.getY() / 3.0)][(int) (e.getX() / 2.7)]) + " mg/m³");
                 }
             }
             if (resp == 3) {
@@ -368,7 +342,54 @@ public class Leitura extends JPanel implements ActionListener {
                     y2.setSelectionEnd(0);
                     break;
                 case 4:
-                    
+                    if(y1.getText()!=null && x1.getText()!=null && x2.getText()!=null && y2.getText()!=null)
+                    {
+                        double sum1=0, sum2=0, sum3=0;
+                        double cont1=0, cont2=0, cont3=0;
+                        String xisum = x1.getText();
+                        String xisdois = x2.getText();
+                        String yum = y1.getText();
+                        String ydois = y2.getText();
+                        for(int i=Integer.parseInt(xisum); i<Integer.parseInt(xisdois); i++)
+                        {
+                            for(int j=Integer.parseInt(yum); j<Integer.parseInt(ydois); j++)
+                            {
+                                if(finale[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                {
+                                    sum1+=finale[(int)(j/3.0)][(int)(i/2.7)];
+                                    cont1++;
+                                }
+                                if(temp[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                {
+                                    sum2+=temp[(int)(j/3.0)][(int)(i/2.7)];
+                                    cont2++;
+                                }
+                                if(sal[(int)(j/3.0)][(int)(i/2.7)] < 8000)
+                                {
+                                    sum3+=sal[(int)(j/3.0)][(int)(i/2.7)];
+                                    cont3++;
+                                }
+                            }
+                        }
+                        lab.setText("Concentracao:  " + sum1/cont1 + " mg/m³");
+                        lab2.setText("Temperatura:  " + sum2/cont2 + " ºC ");
+                        lab3.setText("Salinidade:  " + sum3/cont3 + " PSU ");
+                        painel.setLayout(new FlowLayout());
+                        lab.setFont(new Font("Times New Roman", 20, 20));
+                        lab2.setFont(new Font("Times New Roman", 20, 20));
+                        lab3.setFont(new Font("Times New Roman", 20, 20));
+                        painel.add(lab);
+                        painel.add(lab2);
+                        painel.add(lab3);
+                        frm.setSize(500, 150);
+                        frm.add(painel);
+
+                        frm.setLocationRelativeTo(null);
+                        frm.setVisible(true);
+                        frame.dispose();
+                        kappa=true;
+                        repaint();
+                    }
                     break;
             }
         }
@@ -797,6 +818,16 @@ public class Leitura extends JPanel implements ActionListener {
                     }
                 }
             }
+        }
+        if(kappa)
+        {
+            kappa=false;
+            int xisum = Integer.parseInt(x1.getText());
+            int xisdois = Integer.parseInt(x2.getText());
+            int yum = Integer.parseInt(y1.getText());
+            int ydois = Integer.parseInt(y2.getText());
+            g2d.setPaint(Color.WHITE);
+            g2d.drawRect(xisum, yum, xisdois-xisum, ydois-yum);
         }
     }
 
